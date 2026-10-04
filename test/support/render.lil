@@ -1,0 +1,13 @@
+// Test-only: markdown -> lil2 mdast -> lil2 hast -> React elements through the given runtime.
+import { fromMarkdownTree } from "../../src/to-hast/mdast/index.lil";
+import { ToHast, installCommonmark, toHast } from "../../src/to-hast/to-hast.lil";
+import { JsxOptions, toJsxRuntime } from "../../src/to-jsx.lil";
+
+export JsValue render(string value, JsValue Fragment, JsValue jsx, JsValue jsxs, JsValue components, bool passNode) {
+  ToHast state = new ToHast(fromMarkdownTree(value), false);
+  installCommonmark(state);
+  int root = toHast(state);
+  JsxOptions options = new JsxOptions(Fragment, jsx, jsxs, components);
+  options.passNode = passNode;
+  return toJsxRuntime(state.hast, root, options);
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@itslil/lil2-hast-util-to-jsx-runtime",
+  "version": "0.0.0",
+  "private": true,
+  "description": "hast-util-to-jsx-runtime, rewritten in typed LilScript: a hast arena to React elements",
+  "type": "module",
+  "license": "MIT",
+  "author": "yeargun",
+  "repository": {"type": "git", "url": "git+https://github.com/yeargun/lil2-hast-util-to-jsx-runtime.git"},
+  "homepage": "https://yeargun.github.io/lil2-hast-util-to-jsx-runtime/",
+  "scripts": {
+    "check:sources": "node scripts/shared-sources.mjs",
+    "build:dev": "node scripts/build.mjs --dev",
+    "build": "node scripts/build.mjs",
+    "test": "npm run check:sources && node --test test/differential.test.mjs"
+  },
+  "devDependencies": {
+    "character-entities": "2.0.2",
+    "commonmark.json": "^0.31.0",
+    "hast-util-to-jsx-runtime": "2.3.6",
+    "mdast-util-from-markdown": "2.0.3",
+    "mdast-util-to-hast": "13.2.1",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  }
+}
