@@ -1,8 +1,8 @@
 // Test-only: markdown -> lil2 mdast -> lil2 hast -> React elements through the given runtime.
-import { fromMarkdownTree } from "../../src/to-hast/mdast/index.lil";
-import { keywordNames, propNames, tagNames } from "../../src/to-hast/hast.lil";
-import { ToHast, installCommonmark, toHast } from "../../src/to-hast/to-hast.lil";
-import { JsxOptions, componentTable, toJsxRuntime } from "../../src/to-jsx.lil";
+import { fromMarkdownTree } from "../../src/mdast/parse.lil";
+import { keywordNames, propNames, tagNames } from "../../src/hast/hast.lil";
+import { ToHast, installCommonmark, toHast } from "../../src/hast/to-hast.lil";
+import { JsxOptions, componentTable, toJsxRuntime } from "../../src/jsx/to-jsx.lil";
 
 // `components`: flat `[tag, component, ...]` pairs.
 export JsValue render(string value, JsValue Fragment, JsValue jsx, JsValue jsxs, JsValue components, bool passNode) {
