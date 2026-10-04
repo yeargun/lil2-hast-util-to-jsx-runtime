@@ -9,20 +9,21 @@ import {toJsxRuntime} from 'hast-util-to-jsx-runtime'
 import {Fragment, jsx, jsxs} from 'react/jsx-runtime'
 import {renderToStaticMarkup} from 'react-dom/server'
 import {corpus} from './corpus.mjs'
-const {render} = await import(new URL(process.env.LIL2_RENDER ?? '../.dev/render/render.js', import.meta.url))
+const {render, tagNames, propNames, keywordNames} = await import(new URL(process.env.LIL2_RENDER ?? '../.dev/render/render.js', import.meta.url))
 
 // Column helpers (the lil2 component API).
-const T = {tagName: 4, start: 6, end: 7, flags: 8, meta: 9, propHead: 10, propName: 11, propKind: 12, propString: 13, propNumber: 14, propNext: 15, lineStarts: 16}
+const T = {tag: 4, start: 6, end: 7, flags: 8, meta: 9, propHead: 10, propName: 11, propKind: 12, propString: 13, propNumber: 14, propNext: 15, lineStarts: 16, tagNames: 17}
+const tag = name => tagNames.indexOf(name)
 const lineOf = (tree, offset) => { const starts = tree[T.lineStarts]; let low = 0, high = starts.length - 1; while (low < high) { const mid = (low + high + 1) >> 1; if (starts[mid] <= offset) low = mid; else high = mid - 1 } return low + 1 }
 const columnOf = (tree, offset) => offset - tree[T.lineStarts][lineOf(tree, offset) - 1] + 1
-const propValue = (tree, prop) => [tree[T.propString][prop], tree[T.propNumber][prop], tree[T.propNumber][prop] !== 0, tree[T.propString][prop].split(' ')][tree[T.propKind][prop]]
+const propValue = (tree, prop) => [tree[T.propString][prop], tree[T.propNumber][prop], tree[T.propNumber][prop] !== 0, tree[T.propString][prop].split(' '), keywordNames[tree[T.propNumber][prop]]][tree[T.propKind][prop]]
 
 function nodeRowFromColumns(tree, id) {
   const properties = []
-  for (let prop = tree[T.propHead][id]; prop >= 0; prop = tree[T.propNext][prop]) properties.push([tree[T.propName][prop], propValue(tree, prop)])
+  for (let prop = tree[T.propHead][id]; prop >= 0; prop = tree[T.propNext][prop]) properties.push([propNames[tree[T.propName][prop]], propValue(tree, prop)])
   const s = tree[T.start][id], e = tree[T.end][id]
   const position = tree[T.flags][id] & 1 ? [lineOf(tree, s), columnOf(tree, s), s, lineOf(tree, e), columnOf(tree, e), e] : null
-  return [tree[T.tagName][id], properties, position, tree[T.flags][id] & 2 ? tree[T.meta][id] : null]
+  return [tree[T.tagNames][tree[T.tag][id]], properties, position, tree[T.flags][id] & 2 ? tree[T.meta][id] : null]
 }
 function nodeRowFromObject(node) {
   const p = node.position
@@ -43,11 +44,12 @@ const upstreamComponents = {
   a: function A(props) { return jsx('a', {href: props.href, 'data-line': props.node.position?.start.line, children: props.children}) },
   code: function Code(props) { return jsx('code', {'data-meta': props.node.data?.meta, className: props.className, children: props.children}) }
 }
-const lil2Components = {
-  h1: H1,
-  a: function A(props) { const {tree, node} = props; return jsx('a', {href: props.href, 'data-line': tree[T.flags][node] & 1 ? lineOf(tree, tree[T.start][node]) : undefined, children: props.children}) },
-  code: function Code(props) { const {tree, node} = props; return jsx('code', {'data-meta': tree[T.flags][node] & 2 ? tree[T.meta][node] : undefined, className: props.className, children: props.children}) }
-}
+// lil2 takes components as flat [tag, component] pairs.
+const lil2Components = [
+  tag('h1'), H1,
+  tag('a'), function A(props) { const {tree, node} = props; return jsx('a', {href: props.href, 'data-line': tree[T.flags][node] & 1 ? lineOf(tree, tree[T.start][node]) : undefined, children: props.children}) },
+  tag('code'), function Code(props) { const {tree, node} = props; return jsx('code', {'data-meta': tree[T.flags][node] & 2 ? tree[T.meta][node] : undefined, className: props.className, children: props.children}) }
+]
 
 for (const [label, upstreamComps, lil2Comps, passNode] of [['default', undefined, undefined, false], ['components', upstreamComponents, lil2Components, true]]) {
   test(`React output equals upstream (${label})`, () => {
