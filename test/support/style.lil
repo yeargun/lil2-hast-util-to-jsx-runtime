@@ -1,0 +1,5 @@
+// Test-only: the style parser on its own.
+import { parseStyle } from "../../src/jsx/style.lil";
+export JsValue run(string value) {
+  return parseStyle(value);
+}

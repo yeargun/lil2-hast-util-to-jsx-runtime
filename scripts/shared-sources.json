@@ -26,7 +26,8 @@
     "mdast/from-markdown.lil": "afde716ba6d08266b099fb9dd67a4a6df8690ffe1cd604b77b0f80c24768fbbf",
     "mdast/parse.lil": "239d92ff7ff46044067b20c539ba483d89e9824d959d7008658a293743454236",
     "mdast/tree.lil": "829f7c145942c47ed5a64ee66799c74c67524e1fb922a89ed6708551a2a9c92b",
-    "hast/hast.lil": "8409f5ffe3a28d88e5233ff2cf8d0b0559f989fea3d800edfeef94f8cde06da9",
+    "hast/hast.lil": "03d3d2d68dc3d44ac20786538ed1cb693baefb3b21afbd67fa01fa7796f15480",
+    "hast/properties.lil": "3a21343b334a9c26a4c63eb50bd8a3c529430d88c1c32fe7cb42c7eb33720f8d",
     "hast/to-hast.lil": "0212c9146ecf6ae68127fcda27291212f7f5acb74bf6561b1fd2b11a373a5328"
   }
 }
