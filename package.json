@@ -6,13 +6,16 @@
   "type": "module",
   "license": "MIT",
   "author": "yeargun",
-  "repository": {"type": "git", "url": "git+https://github.com/yeargun/lil2-hast-util-to-jsx-runtime.git"},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeargun/lil2-hast-util-to-jsx-runtime.git"
+  },
   "homepage": "https://yeargun.github.io/lil2-hast-util-to-jsx-runtime/",
   "scripts": {
     "check:sources": "node scripts/shared-sources.mjs",
     "build:dev": "node scripts/build.mjs --dev",
     "build": "node scripts/build.mjs",
-    "test": "npm run check:sources && node --test test/differential.test.mjs"
+    "test": "npm run check:sources && node --test test/differential.test.mjs test/style.test.mjs"
   },
   "devDependencies": {
     "character-entities": "2.0.2",
@@ -21,6 +24,7 @@
     "mdast-util-from-markdown": "2.0.3",
     "mdast-util-to-hast": "13.2.1",
     "react": "19.1.1",
-    "react-dom": "19.1.1"
+    "react-dom": "19.1.1",
+    "style-to-js": "^1.1.21"
   }
 }
