@@ -7,18 +7,25 @@ element trees as upstream. Fourth layer of the **lil2** family; it embeds the lo
 ## Flat data, changed API
 
 Everything before React is typed and flat. React props are the only objects, and they're built only at the
-`jsx` call. With `passNode`, a custom component does not get a node object. It gets `node`, an id, and `tree`,
-the hast columns. That is one array per render, shared by every element:
+`jsx` call. Tags and properties are int ids: the element type is read from `tagNames` and each prop key from the
+hast layer's property table (property-information and `hastToReact`, per schema) only at that call.
+
+- Components are `[tag, component, …]` pairs (`componentTable` makes a dense array by tag id).
+- With `passNode`, a component does not get a node object: it gets `node`, an id, and `tree`, the hast columns
+  (one array per render, shared by every element):
 
 ```
-tree = [kind, parent, firstChild, nextSibling, tagName, value, startOffset, endOffset, flags, meta,
-        propHead, propName, propKind, propString, propNumber, propNext, lineStarts, kindNames]
-props.tree[4][props.node]   // the element's tag name
+tree = [kind, parent, firstChild, nextSibling, tag, value, startOffset, endOffset, flags, meta,
+        propHead, propName, propKind, propString, propNumber, propNext, lineStarts, tagNames]
+props.tree[17][props.tree[4][props.node]]   // the element's tag name
 ```
 
-Property names map to React props through tables generated from property-information
-(`scripts/generate-properties.mjs`): html and svg schemas, `hastToReact`, and upstream's `data-*` and
-unknown-name rules.
+- React keys (`passKeys`) are `tagName-index` as upstream makes them, counted by tag id per children list without
+  a map.
+- `src/jsx/style.lil` ports style-to-js (with style-to-object and inline-style-parser): a layer that writes `style`
+  properties (rehype-katex) installs it, so a bundle without one carries none of it.
+
+This layer ships inside lil2-react-markdown; it has no package build of its own.
 
 ## Behaviour
 
