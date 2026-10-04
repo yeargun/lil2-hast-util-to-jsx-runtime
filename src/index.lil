@@ -1,0 +1,72 @@
+// lil2-hast-util-to-jsx-runtime: hast columns to React (or Preact, Solid, Vue) elements through the runtime's
+// `jsx`/`jsxs`, as hast-util-to-jsx-runtime 2.3.6's `toJsxRuntime` does in production. The columns are the ones
+// lil2-mdast-util-to-hast, lil2-remark-gfm, lil2-remark-math and lil2-remark-breaks return, whose tags and
+// properties are the core vocabulary; KaTeX's output (lil2-rehype-katex) renders with lil2-react-markdown's `/full`.
+
+import { Hast, propNames, tagNames } from "./hast/hast.lil";
+import { JsxOptions, componentTable, toJsxRuntime as renderNode } from "./jsx/to-jsx.lil";
+
+extern JsValue Error;
+
+// The arena over the columns' own arrays (no copies): rendering reads the links, tags, values and properties, and
+// with `passNode` hands components the same columns.
+Hast arena(JsValue tree) {
+  Hast h = new Hast();
+  int[] kind = JS.assume(tree[1]);
+  int[] parent = JS.assume(tree[2]);
+  int[] firstChild = JS.assume(tree[3]);
+  int[] nextSibling = JS.assume(tree[4]);
+  int[] tag = JS.assume(tree[5]);
+  string[] value = JS.assume(tree[6]);
+  int[] startOffset = JS.assume(tree[7]);
+  int[] endOffset = JS.assume(tree[8]);
+  int[] flags = JS.assume(tree[9]);
+  string[] meta = JS.assume(tree[10]);
+  int[] propHead = JS.assume(tree[11]);
+  int[] propName = JS.assume(tree[12]);
+  int[] propKind = JS.assume(tree[13]);
+  string[] propString = JS.assume(tree[14]);
+  int[] propNumber = JS.assume(tree[15]);
+  int[] propNext = JS.assume(tree[16]);
+  int[] lineStarts = JS.assume(tree[17]);
+  h.kind = kind;
+  h.parent = parent;
+  h.firstChild = firstChild;
+  h.nextSibling = nextSibling;
+  h.tag = tag;
+  h.value = value;
+  h.sOffset = startOffset;
+  h.eOffset = endOffset;
+  h.flags = flags;
+  h.meta = meta;
+  h.propHead = propHead;
+  h.pProp = propName;
+  h.pKind = propKind;
+  h.pStr = propString;
+  h.pNum = propNumber;
+  h.pNext = propNext;
+  h.lineStarts = lineStarts;
+  return h;
+}
+
+// `toJsxRuntime(tree, {Fragment, jsx, jsxs, components, passKeys, passNode, tableCellAlignToStyle})`: the element for
+// the columns' root. `components` are `[tag, component, ...]` pairs; `passKeys` and `tableCellAlignToStyle` default
+// to true, `passNode` to false, as upstream's.
+export JsValue toJsxRuntime(JsValue tree, JsValue options) {
+  string[] names = JS.assume(tree[18]);
+  int[] propName = JS.assume(tree[12]);
+  int widest = -1;
+  for (int id of propName) {
+    if (id > widest) {
+      widest = id;
+    }
+  }
+  if (names.length > tagNames.length || widest >= propNames.length) {
+    throw JS.construct(Error, "lil2-hast-util-to-jsx-runtime: these columns use tags or properties beyond the core vocabulary (KaTeX output); render them with @itslil/lil2-react-markdown/full");
+  }
+  JsxOptions settings = new JsxOptions(options["Fragment"], options["jsx"], options["jsxs"], componentTable(options["components"]));
+  settings.passKeys = !JS.strictEqual(options["passKeys"], false);
+  settings.passNode = JS.strictEqual(options["passNode"], true);
+  settings.tableCellAlignToStyle = !JS.strictEqual(options["tableCellAlignToStyle"], false);
+  return renderNode(arena(tree), JS.number(tree[0]).toInt(), settings);
+}

@@ -1,0 +1,12 @@
+// Test-only: markdown -> lil2 mdast -> lil2 hast columns, as lil2-mdast-util-to-hast's `markdownToHast` returns them.
+import { fromMarkdownTree } from "../../src/mdast/parse.lil";
+import { Hast, tagNames } from "../../src/hast/hast.lil";
+import { ToHast, installCommonmark, toHast } from "../../src/hast/to-hast.lil";
+
+export JsValue markdownToHast(string value) {
+  ToHast state = new ToHast(fromMarkdownTree(value), false);
+  installCommonmark(state);
+  int root = toHast(state);
+  Hast h = state.hast;
+  return [root, h.kind, h.parent, h.firstChild, h.nextSibling, h.tag, h.value, h.sOffset, h.eOffset, h.flags, h.meta, h.propHead, h.pProp, h.pKind, h.pStr, h.pNum, h.pNext, h.lineStarts, tagNames];
+}

@@ -1,0 +1,147 @@
+{
+  "version": 3,
+  "codec": "brotli",
+  "outputs": [
+    {
+      "mode": "single",
+      "format": "esm",
+      "entries": [
+        {
+          "name": "index",
+          "file": "to-jsx-runtime.js",
+          "dynamic": false,
+          "closure": [
+            "to-jsx-runtime.js"
+          ],
+          "row": 1718,
+          "raw_row": 4158
+        }
+      ],
+      "files": [
+        {
+          "file": "to-jsx-runtime.js",
+          "role": "entry",
+          "source_map_for": null,
+          "label": [
+            "index"
+          ],
+          "modules": [
+            "index.lil",
+            "hast/hast.lil",
+            "hast/properties.lil",
+            "jsx/to-jsx.lil"
+          ],
+          "anchored": true,
+          "imports": [],
+          "dynamic_imports": [],
+          "bytes": 4158,
+          "codec_bytes": 1718,
+          "sha256": "5e67dd61f02ac0a7e32e6815daca9dbb32460d7ea78decbbbf4ed6cc72dc6a7f"
+        }
+      ],
+      "side_effects": [
+        "to-jsx-runtime.js"
+      ],
+      "codec_total": 1718,
+      "rows_total": 1718,
+      "setters": 0,
+      "output": "primary",
+      "codec": "brotli",
+      "codec_settings": {
+        "brotli": {
+          "quality": 11,
+          "window": 22,
+          "mode": "generic"
+        },
+        "gzip": {
+          "level": 9,
+          "window": 15
+        }
+      },
+      "policy_fingerprint": [
+        20,
+        204,
+        102,
+        30,
+        20,
+        106,
+        197,
+        124,
+        162,
+        118,
+        219,
+        32,
+        175,
+        58,
+        114,
+        249,
+        0,
+        164,
+        141,
+        177,
+        41,
+        254,
+        165,
+        209,
+        59,
+        195,
+        104,
+        57,
+        189,
+        243,
+        207,
+        191
+      ]
+    }
+  ],
+  "source_sha256": "518da28637fa8b3d84a36a6957bb03b09ae07dfd8ea139c7c93bf6e4d8ea649c",
+  "inputs": {
+    "root": 0,
+    "entries": [
+      {
+        "name": "index",
+        "module": 0
+      }
+    ],
+    "modules": [
+      {
+        "path": "/home/azureuser/lil2-hast-util-to-jsx-runtime/src/index.lil",
+        "bytes": 3147,
+        "sha256": "862360c89ecc25238b11cfac2e5a7cb314108937e14ebacfc3aa88e07e1ef0fa",
+        "dependencies": [
+          1,
+          3
+        ],
+        "dynamic_dependencies": []
+      },
+      {
+        "path": "/home/azureuser/lil2-hast-util-to-jsx-runtime/src/hast/hast.lil",
+        "bytes": 10279,
+        "sha256": "03d3d2d68dc3d44ac20786538ed1cb693baefb3b21afbd67fa01fa7796f15480",
+        "dependencies": [
+          2
+        ],
+        "dynamic_dependencies": []
+      },
+      {
+        "path": "/home/azureuser/lil2-hast-util-to-jsx-runtime/src/hast/properties.lil",
+        "bytes": 1110,
+        "sha256": "3a21343b334a9c26a4c63eb50bd8a3c529430d88c1c32fe7cb42c7eb33720f8d",
+        "dependencies": [],
+        "dynamic_dependencies": []
+      },
+      {
+        "path": "/home/azureuser/lil2-hast-util-to-jsx-runtime/src/jsx/to-jsx.lil",
+        "bytes": 9738,
+        "sha256": "b45190b92f2a0651c7f738d820786198fc4335259bcb0d619842cc23eec11ff3",
+        "dependencies": [
+          1,
+          2
+        ],
+        "dynamic_dependencies": []
+      }
+    ],
+    "host_modules": [],
+    "host_reserved": []
+  }
+}

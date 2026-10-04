@@ -1,7 +1,6 @@
 {
   "name": "@itslil/lil2-hast-util-to-jsx-runtime",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "hast-util-to-jsx-runtime, rewritten in typed LilScript: a hast arena to React elements",
   "type": "module",
   "license": "MIT",
@@ -10,12 +9,46 @@
     "type": "git",
     "url": "git+https://github.com/yeargun/lil2-hast-util-to-jsx-runtime.git"
   },
-  "homepage": "https://yeargun.github.io/lil2-hast-util-to-jsx-runtime/",
+  "bugs": {
+    "url": "https://github.com/yeargun/lil2-hast-util-to-jsx-runtime/issues"
+  },
+  "homepage": "https://github.com/yeargun/lil2-hast-util-to-jsx-runtime#readme",
+  "keywords": [
+    "hast",
+    "hast-util",
+    "jsx",
+    "react",
+    "preact",
+    "solid",
+    "vue",
+    "runtime",
+    "lilscript",
+    "lil2",
+    "typed",
+    "fast"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "./dist/to-jsx-runtime.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./dist/to-jsx-runtime.js"
+    }
+  },
+  "files": [
+    "dist/**/*.js",
+    "types",
+    "NOTICE.md"
+  ],
   "scripts": {
     "check:sources": "node scripts/shared-sources.mjs",
     "build:dev": "node scripts/build.mjs --dev",
     "build": "node scripts/build.mjs",
-    "test": "npm run check:sources && node --test test/differential.test.mjs test/style.test.mjs"
+    "test": "npm run check:sources && node --test test/differential.test.mjs test/style.test.mjs test/package.test.mjs"
   },
   "devDependencies": {
     "character-entities": "2.0.2",
